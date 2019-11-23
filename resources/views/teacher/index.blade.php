@@ -14,7 +14,7 @@
           <div class="a1-card" style="width: 200px; height: 200px;">
               <img src="resources/views/image/ques-paper-icon.png" style="width: 200px; height: 200px;">
           </div>
-          <a class="a1-button a1-hover-red a1-margin a1-center" href="{{route('viewpaper')}}">View Paper</a>
+          <a class="a1-button a1-hover-red a1-margin a1-center" href="{{route('Checkpaper')}}">Check  Paper</a>
       </div>
     </div>
 

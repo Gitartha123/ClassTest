@@ -41,7 +41,12 @@
                         {!! Form::label('Time','Enter Time:') !!}
                     </td>
                     <td>
-                        <input type="time" name="time" id="time" class="form-control" style="width: 100%">
+                        <div class="a1-row">
+                            <div class="a1-quarter" style="width: 40px"><input type="text" name="hour" id="time" class="form-control" style="width:40px;"></div>
+                            <div class="a1-quarter a1-padding" style="width: 40px">Hr:</div>
+                            <div class="a1-quarter" style="width: 40px"><input type="text" name="min" id="time" class="form-control" style="width:40px;"></div>
+                            <div class="a1-quarter a1-padding" style="width: 40px">Min</div>
+                        </div>
                     </td>
                 </tr>
 

@@ -14,6 +14,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
 use App\question;
 use App\exam;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Session;
 
@@ -42,55 +43,21 @@ class TeacherIndex extends Controller
 
 
     public function store(Request $request){
-        $addquestion=new question();
-        $addquestion->examid = $request->examid;
-        $addquestion->semid = $request->semid;
-        $addquestion->subcode =$request->subcode;
-        $addquestion->qtype = $request->qtype;
-        $addquestion->qtitle = $request->question;
-        $addquestion->option1 = $request->option1;
-        $addquestion->option2 = $request->option2;
-        $addquestion->option3 = $request->option3;
-        $addquestion->option4 = $request->option4;
-        $addquestion->coption = $request->coption;
-        $addquestion->mark = $request->mark;
-        $addquestion->qno = $request->qno;
-        $addquestion->save();
+        foreach ($request->input('name') as $key => $k){
+                    $data = new question();
+                    $data->qtitle = $request->name[$key];
+                    $data->qno = $request->qno[$key];
+                    $data->mark = $request->mark[$key];
+                    $data->examid = $request->examid;
+                    $data->subcode = $request->subcode;
+                    $data->semid = $request->semid;
+                    $data->save();
 
-            $name = $request->get('examid');
-            $subname=$request->input('subcode');
-            $semid = $request->input('semid');
-            $qtype = $request->input('qtype');
-            $noq = $request->input('noq');
-            $qno = $request->input('qno');
-            $mark = $request->input('mark');
-            $total = $request->input('total');
-            $totalmarks=exam::select('totalmarks')->where('id',$name)->get();
-            $t = $request->input('totalmarks');
+        }
 
 
-                    if($total < $t ){
-                        $total = $total+$mark;
-                        $qno = $qno + 1;
-                         if($total == $t){
-                             Session::flash('message', 'Paper Submitted Successfully ');
-                             return Redirect::to('/teacherpanel');
-                        }
-
-                         elseif($total > $t) {
-                             echo '<script>alert("Ooops!!!Total marks is out of range!!!Check now")</script>';
-                             return view('welcome');
-                         }
-                        else{
-                            return view('teacher.Question', ['exam' => [$name], 'subject' => [$subname], 'semester' => [$semid], 'noq' => [$noq], 'qtype' => [$qtype], 'qno' => [$qno], 'total' => [$total], 'mark' => [$mark], 't' => [$t]
-                            ])->with('totalmarks', $totalmarks);
-                        }
-                    }
-
-
-
-
-
+        Session::flash('message',' Paper submitted successfully');
+        return Redirect::to('/teacherpanel');
 
     }
 
@@ -118,4 +85,5 @@ class TeacherIndex extends Controller
         $getqno =  DB::table('question')->pluck(allOf())->where('subcode','=',$searchquestion);
         return view('teacher.viewquestion')->with('getqno',$getqno);
     }
+
 }

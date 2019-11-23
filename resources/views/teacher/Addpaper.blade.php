@@ -76,16 +76,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                {!! Form::label('Quetion type','','Question Type') !!}
-                            </td>
-                            <td>
-                                <select name="qtype" class="form-control" onchange="copyText()">
-                                    <option readonly="true">--Select Question type--</option>
-                                    <option>Subjective Question</option>
-                                    <option >Objective Question</option>
-                                </select>
-                            </td>
+
+
                         </tr>
 
                         <tr>

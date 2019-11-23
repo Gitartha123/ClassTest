@@ -37,8 +37,9 @@ class HodController extends Controller
     public function storexam(Request $request){
                $addexam = new exam();
                $addexam->examname = $request->examname;
-               $addexam->time = $request->time;
                $addexam->totalmarks = $request->fullmarks;
+               $addexam->hour = $request->hour;
+               $addexam->min = $request->min;
                $addexam->save();
 
                Session::flash('exammessage','Exam is created');

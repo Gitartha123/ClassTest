@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\answer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use App\question;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -38,7 +40,10 @@ class HomeController extends Controller
 
         foreach ($getstatus as $g)
         if($g != 0 ){
-            return view('exam')->with('getquestions',$getquestions)->with('time',$getTime);
+            $getexam = DB::table('question')->where('status','=',1)->pluck('examid');
+            $gethour = DB::table('exam')->where('id','=',$getexam)->pluck('hour');
+            $getmin = DB::table('exam')->where('id','=',$getexam)->pluck('min');
+            return view('exam')->with('getquestions',$getquestions)->with('gethour',$gethour)->with('getmin',$getmin);
 
         }
         else{
@@ -47,5 +52,24 @@ class HomeController extends Controller
         }
 
     }
+
+
+        public function postanswer(Request $request){
+            foreach ($request->input('qno') as $key => $k){
+
+
+                $data = new answer();
+                $data->uid = $request->uid;
+                $data->question = $request->question[$key];
+                $data->qno = $request->qno[$key];
+                $data->mark = $request->marks[$key];
+                $data->answer = $request->answer[$key];
+                $data->save();
+
+            }
+
+            echo '<script>alert("Submitted Succsessfully");</script>';
+            return view('submitanswer');
+        }
 
 }
